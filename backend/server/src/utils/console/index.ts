@@ -1,0 +1,1 @@
+export { appConsole } from "./console.js"
