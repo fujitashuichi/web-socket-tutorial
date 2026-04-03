@@ -3,8 +3,8 @@ import { styleText } from "node:util";
 
 type ProcessRole = "SERVER" | "SYSTEM";
 const THEMES = {
-  SERVER: ["bgBlack", "magenta", "bold"],
-  SYSTEM: ["bgBlack", "green", "bold"]
+  SERVER: ["magenta", "bold"],
+  SYSTEM: ["green", "bold"]
 } as const;
 
 
