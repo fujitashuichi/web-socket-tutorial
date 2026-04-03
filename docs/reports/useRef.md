@@ -40,6 +40,7 @@
 
 ## 実装
 ```ts
+
 type ConnectionStatus =
   | "connecting" | "closed" | "opened" | "error"
 
@@ -53,8 +54,12 @@ export const useWebSocket = (url: string) => {
   const socket = useRef<WebSocket | null>(null);
 
   useEffect(() => {
+    const ws = new WebSocket(url);
     // ref を変化させてもレンダリングは発火しない
-    socket.current = new WebSocket(url);
+    socket.current = ws;
+
+    let canceled = false;
+
     // state を変化させるとレンダリングが発火する
     setStatus("connecting");
 
@@ -62,13 +67,18 @@ export const useWebSocket = (url: string) => {
       setData(JSON.parse(event.data));
     };
 
-    socket.current.onopen = () => setStatus("opened");
-    socket.current.onclose = () => setStatus("closed");
+    socket.current.onopen =  () => {
+      if (!canceled) setStatus("opened");
+    }
+    socket.current.onclose = () => {
+      if (!canceled) setStatus("closed");
+    }
     socket.current.onerror = () => {
-      setStatus("error");
+      if (!canceled) setStatus("error");
     }
 
     return () => {
+      canceled = true;
       if (socket.current) socket.current.close();
     };
   }, [url]);
@@ -86,5 +96,4 @@ export const useWebSocket = (url: string) => {
 
   return { status, data, sendMessage };
 };
-
 ```

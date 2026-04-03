@@ -12,20 +12,30 @@ export const useWebSocket = (url: string) => {
   const socket = useRef<WebSocket | null>(null);
 
   useEffect(() => {
-    socket.current = new WebSocket(url);
-    (() => setStatus("connecting"))();
+    const ws = new WebSocket(url);
+    socket.current = ws;
+
+    let canceled = false;
+
+    const setToConnecting = () => setStatus("connecting");
+    setToConnecting();
 
     socket.current.onmessage = (event) => {
-      setData(JSON.parse(event.data));
+      if (!canceled) setData(JSON.parse(event.data));
     };
 
-    socket.current.onopen = () => setStatus("opened");
-    socket.current.onclose = () => setStatus("closed");
+    socket.current.onopen =  () => {
+      if (!canceled) setStatus("opened");
+    }
+    socket.current.onclose = () => {
+      if (!canceled) setStatus("closed");
+    }
     socket.current.onerror = () => {
-      setStatus("error");
+      if (!canceled) setStatus("error");
     }
 
     return () => {
+      canceled = true;
       if (socket.current) socket.current.close();
     };
   }, [url]);
