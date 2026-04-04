@@ -6,6 +6,8 @@ const wss = new WebSocketServer({ port: 3000 });
 wss.on("connection", (ws) => {
   appConsole.log("SERVER", "Now connecting to client...");
 
+  ws.send("send me text");
+
   ws.on("close", () => {
     appConsole.log("SERVER", "Connection closed.");
   });
@@ -14,11 +16,20 @@ wss.on("connection", (ws) => {
     appConsole.log("SERVER", `Connection Error: ${err}`);
   });
 
-  ws.on("message", (data, _isBinary) => {
-    const json = data.toString();
-    console.log("message:", JSON.parse(json));
+  ws.on("message", (data, isBinary) => {
+    if (isBinary) {
+      return ws.send(JSON.stringify("send me text!!"));
+    }
 
-    ws.send(JSON.stringify(randomGreeting()));
+    try {
+      const jsonString = data.toString();
+      const payload = JSON.parse(jsonString);
+      console.log("message:", payload);
+
+      ws.send(JSON.stringify(randomGreeting()));
+    } catch (e) {
+      ws.send(JSON.stringify("Invalid JSON format."));
+    };
   });
 });
 
