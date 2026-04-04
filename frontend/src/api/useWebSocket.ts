@@ -42,10 +42,12 @@ export const useWebSocket = (url: string) => {
 
   const sendMessage = (message: string) => {
     if (!socket.current) {
-      return
+      console.error("WebSocket undefined");
+      return;
     };
     if (socket.current.readyState !== WebSocket.OPEN) {
-      return
+      console.error("WebSocket not opened");
+      return;
     };
 
     socket.current.send(JSON.stringify(message));
