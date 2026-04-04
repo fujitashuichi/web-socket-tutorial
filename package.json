@@ -1,0 +1,27 @@
+{
+  "name": "web-socket-tutorial",
+  "version": "1.0.0",
+  "description": "WebSocketの使い方を知るための学習",
+  "homepage": "https://github.com/fujitashuichi/web-socket-tutorial#readme",
+  "bugs": {
+    "url": "https://github.com/fujitashuichi/web-socket-tutorial/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fujitashuichi/web-socket-tutorial.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "workspaces": [
+    "./packages/frontend",
+    "./packages/backend/*"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
