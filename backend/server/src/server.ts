@@ -6,10 +6,6 @@ const wss = new WebSocketServer({ port: 3000 });
 wss.on("connection", (ws) => {
   appConsole.log("SERVER", "Now connecting to client...");
 
-  ws.on("open", () => {
-    appConsole.log("SERVER", `Connection opened.`)
-  })
-
   ws.on("close", () => {
     appConsole.log("SERVER", "Connection closed.");
   });
