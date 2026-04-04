@@ -18,7 +18,7 @@ wss.on("connection", (ws) => {
 
   ws.on("message", (data, isBinary) => {
     if (isBinary) {
-      return ws.send("send me text!!");
+      return ws.send(JSON.stringify("send me text!!"));
     }
 
     try {
@@ -28,7 +28,7 @@ wss.on("connection", (ws) => {
 
       ws.send(JSON.stringify(randomGreeting()));
     } catch (e) {
-      ws.send("Invalid JSON format.");
+      ws.send(JSON.stringify("Invalid JSON format."));
     };
   });
 });
