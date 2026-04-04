@@ -24,7 +24,6 @@ export function ChatForm() {
 
     const parsed = ChatFormDataSchema.safeParse(message);
     if (!parsed.success) {
-      setReady(false);
       alert("メッセージが不正です");
       return;
     }
