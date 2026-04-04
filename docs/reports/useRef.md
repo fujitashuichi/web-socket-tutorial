@@ -64,7 +64,7 @@ export const useWebSocket = (url: string) => {
     setStatus("connecting");
 
     socket.current.onmessage = (event) => {
-      setData(JSON.parse(event.data));
+      if (!canceled) setData(JSON.parse(event.data));
     };
 
     socket.current.onopen =  () => {
