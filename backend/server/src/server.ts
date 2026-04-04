@@ -10,7 +10,7 @@ wss.on("connection", (ws) => {
     appConsole.log("SERVER", `Connection opened.`)
   })
 
-  ws.on("close", (ws) => {
+  ws.on("close", () => {
     appConsole.log("SERVER", "Connection closed.");
   });
 
@@ -22,7 +22,7 @@ wss.on("connection", (ws) => {
     const json = data.toString();
     console.log("message:", JSON.parse(json));
 
-    ws.pong("hello client!");
+    ws.send(JSON.stringify("hello client!"));
   });
 });
 

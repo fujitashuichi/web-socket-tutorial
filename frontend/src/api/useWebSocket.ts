@@ -7,7 +7,7 @@ type ConnectionStatus =
 
 export const useWebSocket = (url: string) => {
   const [status, setStatus] = useState<ConnectionStatus>("closed");
-  const [data, setData] = useState(null);
+  const [data, setData] = useState<string | null>(null);
 
   const socket = useRef<WebSocket | null>(null);
 
@@ -15,28 +15,47 @@ export const useWebSocket = (url: string) => {
     const ws = new WebSocket(url);
     socket.current = ws;
 
+    const id = crypto.randomUUID();
+    console.log("current WebSocket:", id);
+
     let canceled = false;
 
     const setToConnecting = () => setStatus("connecting");
     setToConnecting();
 
     socket.current.onmessage = (event) => {
-      if (!canceled) setData(JSON.parse(event.data));
+      console.log("onmessage - current WebSocket:", id);
+      const resData = JSON.parse(event.data);
+
+      if (!canceled) {
+        console.log("response:", resData);
+        setData(resData)
+      };
     };
 
     socket.current.onopen =  () => {
-      if (!canceled) setStatus("opened");
+      if (!canceled) {
+        console.log("onopen - current WebSocket:", id);
+        setStatus("opened")
+      };
     }
     socket.current.onclose = () => {
-      if (!canceled) setStatus("closed");
+      if (!canceled) {
+        console.log("onclose -  current WebSocket:", id);
+        setStatus("closed")
+      };
     }
     socket.current.onerror = () => {
-      if (!canceled) setStatus("error");
+      if (!canceled) {
+        console.log("onerror - current WebSocket:", id);
+        setStatus("error");
+      }
     }
 
     return () => {
       canceled = true;
       if (socket.current) socket.current.close();
+      console.log("WebSocket closed:", id);
     };
   }, [url]);
 
@@ -53,5 +72,9 @@ export const useWebSocket = (url: string) => {
     socket.current.send(JSON.stringify(message));
   };
 
-  return { status, data, sendMessage };
+  return {
+    status,
+    data,
+    sendMessage
+  };
 };

@@ -40,7 +40,7 @@ export function ChatForm() {
     {ready &&
       <>
         <h1>Connection OK</h1>
-        <p>{data}</p>
+        <p>{data ?? "no Messages"}</p>
 
         <form onSubmit={send}>
           <input name="message" type="text" maxLength={30} minLength={1}
