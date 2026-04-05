@@ -5,13 +5,15 @@
     "rootDir": "./src",
     "outDir": "./dist",
 
+    "composite": true,
+
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
     "module": "nodenext",
     "target": "esnext",
     // "types": [],
     // For nodejs:
-    "lib": ["ESNext"],
+    "lib": ["esnext"],
     "types": ["node"],
     // and npm install -D @types/node ☑DONE
 
@@ -40,12 +42,6 @@
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
     "skipLibCheck": true,
-    "composite": true,
-    "paths": {
-      "@app/shared": ["../../shared/src/index.ts"]
-    }
   },
-  "references": [
-    { "path": "../../shared/" }
-  ]
+  "include": ["./src/**/*"]
 }

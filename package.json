@@ -19,7 +19,8 @@
   },
   "workspaces": [
     "./packages/frontend",
-    "./packages/backend/*"
+    "./packages/backend/*",
+    "./packages/shared"
   ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
