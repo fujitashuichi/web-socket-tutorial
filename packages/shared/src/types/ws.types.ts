@@ -10,5 +10,5 @@ export type WsResponse =
   | {
     ok: true,
     status: number,
-    data: JSON
+    data: unknown
   };
