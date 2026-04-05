@@ -12,6 +12,7 @@
     "dev": "tsx watch src/server.ts"
   },
   "dependencies": {
+    "@app/shared": "*",
     "ws": "^8.20.0"
   },
   "devDependencies": {

@@ -40,5 +40,12 @@
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
     "skipLibCheck": true,
-  }
+    "composite": true,
+    "paths": {
+      "@app/shared": ["../../shared/src/index.ts"]
+    }
+  },
+  "references": [
+    { "path": "../../shared/" }
+  ]
 }
