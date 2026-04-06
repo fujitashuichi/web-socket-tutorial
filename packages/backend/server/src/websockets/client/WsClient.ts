@@ -18,10 +18,12 @@ export class WsClient {
 
   private listen = (socket: WebSocketServer): void => {
     socket.on("connection", (ws) => {
-      ws.on("open", this.wsEvents(ws).onopen);
-      ws.on("message", this.wsEvents(ws).onmessage);
-      ws.on("close", this.wsEvents(ws).onclose);
-      ws.on("error", this.wsEvents(ws).onerror);
+      const events = this.wsEvents(ws);
+
+      ws.on("open", events.onopen);
+      ws.on("message", events.onmessage);
+      ws.on("close", events.onclose);
+      ws.on("error", events.onerror);
     });
   };
 }
