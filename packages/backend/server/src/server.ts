@@ -10,10 +10,18 @@ const firstResponse: WsResponse = {
   data: "hi client!"
 }
 
-const onmessageResponse: WsResponse = {
-  ok: true,
-  status: 1000,
-  data: randomGreeting()
+const messageForBinary: WsResponse = {
+  ok: false,
+  status: 1006,
+  errorName: "UnsupportedData"
+}
+
+const onmessageResponse = (): WsResponse => {
+  return {
+    ok: true,
+    status: 1000,
+    data: randomGreeting()
+  }
 }
 
 
@@ -32,7 +40,7 @@ wss.on("connection", (ws) => {
 
   ws.on("message", (data, isBinary) => {
     if (isBinary) {
-      return ws.send(JSON.stringify(onmessageResponse));
+      return ws.send(JSON.stringify(messageForBinary));
     }
 
     try {
@@ -40,7 +48,7 @@ wss.on("connection", (ws) => {
       const payload = JSON.parse(jsonString);
       console.log("message:", payload);
 
-      ws.send(JSON.stringify(randomGreeting()));
+      ws.send(JSON.stringify(onmessageResponse()));
     } catch (e) {
       ws.send(JSON.stringify("Invalid JSON format."));
     };
