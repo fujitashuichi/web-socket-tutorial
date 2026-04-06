@@ -2,9 +2,7 @@ import type { WsResponse } from "@app/shared";
 import { WebSocketServer } from "ws";
 
 
-type Result =
-  | { success: false }
-  | { success: true, message: WsResponse }
+type Result = { success: boolean }
 
 export const tryConnect = async (
   port: number,
@@ -26,12 +24,8 @@ export const tryConnect = async (
           data: "Hi Client!"
         };
         ws.send(JSON.stringify(message));
-
-        return {
-          success: true,
-          message
-        };
       });
+      return { success: true }
     }
 
 
