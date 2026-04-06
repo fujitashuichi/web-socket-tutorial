@@ -3,7 +3,7 @@ import type { WebSocket } from "ws";
 import type { WsResponse } from "@app/shared";
 import { randomGreeting } from "../../utils/randomGreeting.js";
 import { WsClientEvents } from "../client/ws.client.js";
-import { tryConnect } from "./tryConnect.js";
+
 
 export class Socket {
   private socket: WebSocketServer;
