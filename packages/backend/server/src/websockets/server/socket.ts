@@ -1,9 +1,9 @@
 import type { WebSocketServer } from "ws";
 import { tryConnect } from "./tryConnect.js";
-import { WsLifeCycles } from "../client/lifeCycle.js";
+import { WsClient } from "../client/WsClient.js";
 
 
-export class WsService {
+export class Socket {
   private socket: WebSocketServer | null;
   private readonly port: number;
 
@@ -17,7 +17,7 @@ export class WsService {
     const result = await this.connect();
 
     if (result.success && this.socket) {
-      const lifeCycles = new WsLifeCycles(this.socket);
+      const lifeCycles = new WsClient(this.socket);
       return { ok: true, data: "Server started" };
     }
 

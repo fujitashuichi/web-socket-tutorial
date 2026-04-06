@@ -3,7 +3,7 @@ import type { WebSocket } from "ws";
 import { WsClientEvents } from "../client/wsClientEvents.js";
 
 
-export class WsLifeCycles {
+export class WsClient {
   private socket: WebSocketServer;
 
   constructor(socket: WebSocketServer) {
