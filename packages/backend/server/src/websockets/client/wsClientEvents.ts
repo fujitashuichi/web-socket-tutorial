@@ -1,5 +1,6 @@
 import type { WsCloseEventCodes, WsResponse } from "@app/shared";
 import type { WebSocket } from "ws";
+import { appConsole } from "../../utils/index.js";
 
 
 export class WsClientEvents {
@@ -11,6 +12,7 @@ export class WsClientEvents {
 
   onopen = () => {
     try {
+      appConsole.log("SERVER", "WebSocket opened");
       const message = this.createSuccessMessage("safe");
       return this.ws.send(JSON.stringify(message));
     } catch(e) {
@@ -43,12 +45,9 @@ export class WsClientEvents {
 
   onclose = () => {
     try {
-      const message = this.createSuccessMessage("Disconnected successfully");
-      this.ws.send(JSON.stringify(message));
+      appConsole.log("SERVER", "Disconnected successfully");
     } catch(e) {
       console.error(e);
-      const message = this.createFailureMessage(1011, "CloseConnectionFailed");
-      this.ws.send(JSON.stringify(message));
     }
   }
 
