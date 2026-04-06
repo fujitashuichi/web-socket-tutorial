@@ -15,7 +15,7 @@ export class WsClientEvents {
       return this.ws.send(JSON.stringify(message));
     } catch(e) {
       console.error(e);
-      const message = this.createFailureMessage("ConnectionFailed", 1006);
+      const message = this.createFailureMessage(1006, "ConnectionFailed");
       this.ws.send(JSON.stringify(message));
     }
   }
@@ -34,9 +34,33 @@ export class WsClientEvents {
 
         this.ws.send(JSON.stringify(message));
       } catch (e) {
-        const message = this.createFailureMessage("InvalidData", 1003);
+        console.error(e);
+        const message = this.createFailureMessage(1003, "InvalidData");
         this.ws.send(JSON.stringify(message));
       };
+    }
+  }
+
+  onclose = () => {
+    try {
+      const message = this.createSuccessMessage("Disconnected successfully");
+      this.ws.send(JSON.stringify(message));
+    } catch(e) {
+      console.error(e);
+      const message = this.createFailureMessage(1011, "CloseConnectionFailed");
+      this.ws.send(JSON.stringify(message));
+    }
+  }
+
+  onerror = (err: any) => {
+    try {
+      console.error(err);
+      const message = this.createFailureMessage(1011, "InternalServerError")
+      this.ws.send(JSON.stringify(message));
+    } catch(e) {
+      console.error(e)
+      const message = this.createFailureMessage(1011, "InternalServerError");
+      this.ws.send(JSON.stringify(message));
     }
   }
 
@@ -49,7 +73,14 @@ export class WsClientEvents {
     }
   }
 
-  private createFailureMessage = (data: any, status: WsCloseEventCodes["failure"], ): WsResponse => {
+  private createFailureMessage = (status: WsCloseEventCodes["failure"], message?: string): WsResponse => {
+    if (message) {
+      return {
+        ok: false,
+        status,
+        message
+      }
+    }
     return {
       ok: false,
       status

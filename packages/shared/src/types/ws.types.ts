@@ -6,7 +6,8 @@ export type WsCloseEventCodes = {
 export type WsResponse =
   | {
     ok: false,
-    status: WsCloseEventCodes["failure"]
+    status: WsCloseEventCodes["failure"],
+    message?: string
   }
   | {
     ok: true,
