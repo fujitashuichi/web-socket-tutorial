@@ -1,4 +1,4 @@
-import type { WsResponse } from "@app/shared";
+import type { WsCloseEventCodes, WsResponse } from "@app/shared";
 import type { WebSocket } from "ws";
 
 
@@ -8,14 +8,17 @@ export class WsClientEvents {
     this.ws = ws;
   }
 
-  messageEvent = (message: WsResponse) => {
+
+  onopen = () => {
+    try {
+      const message = {}
+    }
+  }
+
+  onmessage = (message: WsResponse) => {
     return (data: any, isBinary: boolean) => {
       if (isBinary) {
-        const message: WsResponse = {
-          ok: false,
-          status: 1006,
-          errorName: "UnsupportedData"
-        }
+        const message = this.createSuccessMessage("InvalidData");
         return this.ws.send(JSON.stringify(message));
       }
 
@@ -26,13 +29,25 @@ export class WsClientEvents {
 
         this.ws.send(JSON.stringify(message));
       } catch (e) {
-        const message: WsResponse = {
-          ok: false,
-          status: 1002,
-          errorName: "UnsupportedData"
-        }
+        const message = this.createFailureMessage("InvalidData", 1003);
         this.ws.send(JSON.stringify(message));
       };
+    }
+  }
+
+
+  private createSuccessMessage = (data: any): WsResponse => {
+    return {
+      ok: true,
+      status: 1000,
+      data
+    }
+  }
+
+  private createFailureMessage = (data: any, status: WsCloseEventCodes["failure"], ): WsResponse => {
+    return {
+      ok: false,
+      status
     }
   }
 }

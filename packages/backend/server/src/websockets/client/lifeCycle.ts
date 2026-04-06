@@ -1,6 +1,5 @@
 import { WebSocketServer } from "ws";
 import type { WebSocket } from "ws";
-import type { WsResponse } from "@app/shared";
 import { WsClientEvents } from "../client/wsClientEvents.js";
 
 
@@ -19,7 +18,7 @@ export class WsLifeCycles {
 
   private listen = (socket: WebSocketServer): void => {
     socket.on("connection", (ws) => {
-      ws.on("message", this.wsEvents(ws).messageEvent);
+      ws.on("message", this.wsEvents(ws).onmessage);
     });
   };
 }

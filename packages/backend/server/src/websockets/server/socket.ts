@@ -1,6 +1,6 @@
 import type { WebSocketServer } from "ws";
 import { tryConnect } from "./tryConnect.js";
-import { WsLifeCycles } from "./lifeCycle.js";
+import { WsLifeCycles } from "../client/lifeCycle.js";
 
 
 export class WsService {
