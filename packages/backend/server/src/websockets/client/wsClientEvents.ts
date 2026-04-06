@@ -1,6 +1,6 @@
 import type { WsCloseEventCodes, WsResponse } from "@app/shared";
 import type { WebSocket } from "ws";
-import { appConsole } from "../../utils/index.js";
+import { appConsole, randomGreeting } from "../../utils/index.js";
 
 
 export class WsClientEvents {
@@ -22,25 +22,24 @@ export class WsClientEvents {
     }
   }
 
-  onmessage = (message: WsResponse) => {
-    return (data: any, isBinary: boolean) => {
-      if (isBinary) {
-        const message = this.createSuccessMessage("InvalidData");
-        return this.ws.send(JSON.stringify(message));
-      }
-
-      try {
-        const jsonString = data.toString();
-        const payload = JSON.parse(jsonString);
-        console.log("message:", payload);
-
-        this.ws.send(JSON.stringify(message));
-      } catch (e) {
-        console.error(e);
-        const message = this.createFailureMessage(1003, "InvalidData");
-        this.ws.send(JSON.stringify(message));
-      };
+  onmessage = (data: any, isBinary: boolean) => {
+    if (isBinary) {
+      const message = this.createSuccessMessage("InvalidData");
+      return this.ws.send(JSON.stringify(message));
     }
+
+    try {
+      const jsonString = data.toString();
+      const payload = JSON.parse(jsonString);
+      console.log("message:", payload);
+
+      const message = this.createSuccessMessage(randomGreeting());
+      this.ws.send(JSON.stringify(message));
+    } catch (e) {
+      console.error(e);
+      const message = this.createFailureMessage(1003, "InvalidData");
+      this.ws.send(JSON.stringify(message));
+    };
   }
 
   onclose = () => {
