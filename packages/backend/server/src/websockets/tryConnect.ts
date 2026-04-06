@@ -24,7 +24,9 @@ export const tryConnect = async (port: number, maxRetry: number, setSocket: (wss
 
     console.info("trying connection: No WebSockets");
     errorCount++;
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    await new Promise(resolve => {
+      setTimeout(resolve, (2 ** errorCount) * 1000)
+    });
   }
 
   console.error("Max retries reached. Could not initialize WSS connection.");
