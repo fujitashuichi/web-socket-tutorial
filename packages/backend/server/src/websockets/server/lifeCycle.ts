@@ -1,11 +1,10 @@
 import { WebSocketServer } from "ws";
 import type { WebSocket } from "ws";
 import type { WsResponse } from "@app/shared";
-import { randomGreeting } from "../../utils/randomGreeting.js";
-import { WsClientEvents } from "../client/ws.client.js";
+import { WsClientEvents } from "../client/wsClientEvents.js";
 
 
-export class Socket {
+export class WsLifeCycles {
   private socket: WebSocketServer;
 
   constructor(socket: WebSocketServer) {
@@ -18,21 +17,9 @@ export class Socket {
   }
 
 
-  private messageHandler = (socket: WebSocketServer, message: WsResponse): void => {
+  private listen = (socket: WebSocketServer): void => {
     socket.on("connection", (ws) => {
-      ws.on("message", this.wsEvents(ws).onmessage(message));
+      ws.on("message", this.wsEvents(ws).messageEvent);
     });
   };
-
-
-  onMessage = async () => {
-    const socket = this.socket;
-
-    const message: WsResponse = {
-      ok: true,
-      status: 1000,
-      data: randomGreeting()
-    }
-    this.messageHandler(socket, message);
-  }
 }

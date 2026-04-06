@@ -8,7 +8,7 @@ export class WsClientEvents {
     this.ws = ws;
   }
 
-  onmessage = (message: WsResponse) => {
+  messageEvent = (message: WsResponse) => {
     return (data: any, isBinary: boolean) => {
       if (isBinary) {
         const message: WsResponse = {

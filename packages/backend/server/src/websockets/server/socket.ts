@@ -1,5 +1,6 @@
 import type { WebSocketServer } from "ws";
 import { tryConnect } from "./tryConnect.js";
+import { WsLifeCycles } from "./lifeCycle.js";
 
 
 export class WsService {
@@ -10,6 +11,18 @@ export class WsService {
     this.socket = null;
     this.port = port;
   }
+
+
+  start = async () => {
+    const result = await this.connect();
+
+    if (result.success && this.socket) {
+      const lifeCycles = new WsLifeCycles(this.socket);
+      return { ok: true, data: "Server started" };
+    }
+
+    return { ok: false, error: "Failed to connect" };
+  };
 
 
   connect = async () => {
