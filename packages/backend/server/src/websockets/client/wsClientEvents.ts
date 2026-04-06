@@ -11,7 +11,12 @@ export class WsClientEvents {
 
   onopen = () => {
     try {
-      const message = {}
+      const message = this.createSuccessMessage("safe");
+      return this.ws.send(JSON.stringify(message));
+    } catch(e) {
+      console.error(e);
+      const message = this.createFailureMessage("ConnectionFailed", 1006);
+      this.ws.send(JSON.stringify(message));
     }
   }
 

@@ -12,8 +12,7 @@ const firstResponse: WsResponse = {
 
 const messageForBinary: WsResponse = {
   ok: false,
-  status: 1006,
-  errorName: "UnsupportedData"
+  status: 1006
 }
 
 const onmessageResponse = (): WsResponse => {
