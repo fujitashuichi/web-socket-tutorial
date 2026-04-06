@@ -1,24 +1,24 @@
 import { WebSocketServer } from "ws";
-import { wssConnection } from "./tryConnection.js";
+import { tryConnect } from "./tryConnect.js";
 
 export class Socket {
   private socket: WebSocketServer | null;
+  private readonly port: number;
 
-  constructor() {
+  constructor(port: number) {
     this.socket = null;
+    this.port = port;
   }
 
-  connect = () => {
-    this.socket = new WebSocketServer()
-    this.onConnection();
+  connect = async () => {
+    const setSocket = (wss: WebSocketServer) => {
+      this.socket = wss
+    };
+    tryConnect(this.port, 3, setSocket);
   };
 
 
-  onConnection = async () => {
-    await wssConnection(() => this.socket, 3);
-  }
-
   onMessage = () => {
-    this
+    this.onMessage();
   }
 }

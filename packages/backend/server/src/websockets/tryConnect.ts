@@ -1,14 +1,15 @@
 import type { WsResponse } from "@app/shared";
-import type { WebSocketServer } from "ws";
+import { WebSocketServer } from "ws";
 
-export const wssConnection = async (getSocket: () => WebSocketServer | null, maxRetry: number) => {
+export const tryConnect = async (port: number, maxRetry: number, setSocket: (wss: WebSocketServer) => void) => {
   let errorCount = 0;
 
 
   while (errorCount < maxRetry) {
-    const socket = getSocket();
+    const socket = new WebSocketServer({ port });
 
     if (socket !== null) {
+      setSocket(socket);
       socket.on("connection", (ws) => {
         const message: WsResponse = {
           ok: true,
