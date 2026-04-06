@@ -1,6 +1,6 @@
 import type { WsResponse } from "@app/shared";
 import type { WebSocket } from "ws";
-import { randomGreeting } from "../utils/randomGreeting.js";
+
 
 export class WsClientEvents {
   private readonly ws: WebSocket;
