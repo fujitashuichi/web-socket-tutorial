@@ -12,7 +12,7 @@ const firstResponse: WsResponse = {
 
 const messageForBinary: WsResponse = {
   ok: false,
-  status: 1006
+  status: 1003
 }
 
 const onmessageResponse = (): WsResponse => {
