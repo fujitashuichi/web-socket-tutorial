@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useWebSocket } from '../api/useWebSocket';
+import { useWebSocket } from '../service/useWebSocket';
 import { ChatFormDataSchema } from '../types/form';
 
 
