@@ -1,6 +1,8 @@
 # web-socket-tutorial
 WebSocketの使い方を知るための学習
 
+## [開発仕様](./docs/requirements/devRequirements.md)
+
 ## 学習レポート
 ### [WebSocket の制御に useRef を使う理由](./docs/reports/useRef.md)
 * state での管理が非推奨である理由を考えました
