@@ -24,7 +24,7 @@ export class WsClientEvents {
 
   onmessage = (data: any, isBinary: boolean) => {
     if (isBinary) {
-      const message = this.createSuccessMessage("InvalidData");
+      const message = this.createFailureMessage(1003, "InvalidData");
       return this.ws.send(JSON.stringify(message));
     }
 
