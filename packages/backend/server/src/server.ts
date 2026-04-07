@@ -1,12 +1,33 @@
 import { WebSocketServer } from "ws";
 import { appConsole, randomGreeting } from "./utils/index.js";
+import { type WsResponse } from "@app/shared"
 
 const wss = new WebSocketServer({ port: 3000 });
+
+const firstResponse: WsResponse = {
+  ok: true,
+  status: 1000,
+  data: "hi client!"
+}
+
+const messageForBinary: WsResponse = {
+  ok: false,
+  status: 1003
+}
+
+const onmessageResponse = (): WsResponse => {
+  return {
+    ok: true,
+    status: 1000,
+    data: randomGreeting()
+  }
+}
+
 
 wss.on("connection", (ws) => {
   appConsole.log("SERVER", "Now connecting to client...");
 
-  ws.send("send me text");
+  ws.send(JSON.stringify(firstResponse));
 
   ws.on("close", () => {
     appConsole.log("SERVER", "Connection closed.");
@@ -18,7 +39,7 @@ wss.on("connection", (ws) => {
 
   ws.on("message", (data, isBinary) => {
     if (isBinary) {
-      return ws.send(JSON.stringify("send me text!!"));
+      return ws.send(JSON.stringify(messageForBinary));
     }
 
     try {
@@ -26,7 +47,7 @@ wss.on("connection", (ws) => {
       const payload = JSON.parse(jsonString);
       console.log("message:", payload);
 
-      ws.send(JSON.stringify(randomGreeting()));
+      ws.send(JSON.stringify(onmessageResponse()));
     } catch (e) {
       ws.send(JSON.stringify("Invalid JSON format."));
     };
