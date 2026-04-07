@@ -57,8 +57,6 @@ export class WsClientEvents {
       this.ws.send(JSON.stringify(message));
     } catch(e) {
       console.error(e)
-      const message = this.createFailureMessage(1011, "InternalServerError");
-      this.ws.send(JSON.stringify(message));
     }
   }
 
