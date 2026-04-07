@@ -10,18 +10,6 @@ export class WsClientEvents {
   }
 
 
-  onopen = () => {
-    try {
-      appConsole.log("SERVER", "WebSocket opened");
-      const message = this.createSuccessMessage("safe");
-      return this.ws.send(JSON.stringify(message));
-    } catch(e) {
-      console.error(e);
-      const message = this.createFailureMessage(1006, "ConnectionFailed");
-      this.ws.send(JSON.stringify(message));
-    }
-  }
-
   onmessage = (data: any, isBinary: boolean) => {
     if (isBinary) {
       const message = this.createSuccessMessage("InvalidData");

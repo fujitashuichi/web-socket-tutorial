@@ -20,7 +20,6 @@ export class WsClient {
     socket.on("connection", (ws) => {
       const events = this.wsEvents(ws);
 
-      ws.on("open", events.onopen);
       ws.on("message", events.onmessage);
       ws.on("close", events.onclose);
       ws.on("error", events.onerror);
