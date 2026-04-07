@@ -12,7 +12,7 @@ export class WsClientEvents {
 
   onmessage = (data: any, isBinary: boolean) => {
     if (isBinary) {
-      const message = this.createSuccessMessage("InvalidData");
+      const message = this.createFailureMessage(1003, "InvalidData");
       return this.ws.send(JSON.stringify(message));
     }
 
@@ -45,8 +45,6 @@ export class WsClientEvents {
       this.ws.send(JSON.stringify(message));
     } catch(e) {
       console.error(e)
-      const message = this.createFailureMessage(1011, "InternalServerError");
-      this.ws.send(JSON.stringify(message));
     }
   }
 
