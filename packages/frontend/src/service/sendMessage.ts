@@ -1,5 +1,3 @@
-import WebSocket from "ws";
-
 
 type Result = { ok: boolean };
 

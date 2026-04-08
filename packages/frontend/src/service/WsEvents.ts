@@ -1,9 +1,8 @@
-import type { UUID } from "crypto";
 import type { SetStateAction } from "react";
 import type React from "react";
-import type { MessageEvent, WebSocket } from "ws";
 import type { ConnectionStatus } from "./types";
 import { WsPayloadSchema } from "@app/shared";
+import type { UUIDTypes } from "uuid";
 
 
 type SetStatus = React.Dispatch<SetStateAction<ConnectionStatus>>;
@@ -11,12 +10,12 @@ type SetData = React.Dispatch<SetStateAction<string | null>>;
 
 export class WsEvents {
   socket: WebSocket;
-  socketId: UUID;
+  socketId: UUIDTypes;
   canceled: boolean = false;
   setStatus: SetStatus
   setData: SetData;
 
-  constructor(socket: WebSocket, socketId: UUID, setStatus: SetStatus, setData: SetData) {
+  constructor(socket: WebSocket, socketId: UUIDTypes, setStatus: SetStatus, setData: SetData) {
     this.socket = socket;
     this.socketId = socketId;
     this.setStatus = setStatus;
