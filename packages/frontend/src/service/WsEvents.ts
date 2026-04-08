@@ -25,29 +25,33 @@ export class WsEvents {
 
 
   onmessage = (event: MessageEvent) => {
-    if (this.canceled) return;
+    try {
+      if (this.canceled) return;
 
-    const data = JSON.parse(event.data);
+      const data = JSON.parse(event.data.toString());
 
-    const parsed = WsPayloadSchema.safeParse(data);
-    if (!parsed.success) {
-      return console.error("InvalidPayload");
+      const parsed = WsPayloadSchema.safeParse(data);
+      if (!parsed.success) {
+        return console.error("InvalidPayload");
+      }
+
+      const validated = parsed.data;
+
+
+      if (validated.header.type !== "CHAT") {
+        return console.error("Required CHAT message but received", validated.header.type);
+      }
+
+
+      if (!validated.body.ok) {
+        return console.error("WebSocketError:", validated.body.status);
+      }
+
+      if (typeof validated.body.data !== "string") return console.error("InvalidData");
+      this.setData(validated.body.data);
+    } catch(e) {
+      console.log(e);
     }
-
-    const validated = parsed.data;
-
-
-    if (validated.header.type !== "CHAT") {
-      return console.error("Required CHAT message but received", validated.header.type);
-    }
-
-
-    if (!validated.body.ok) {
-      return console.error("WebSocketError:", validated.body.status);
-    }
-
-    if (typeof validated.body.data !== "string") return console.error("InvalidData");
-    this.setData(validated.body.data);
   };
 
   onopen =  () => {
