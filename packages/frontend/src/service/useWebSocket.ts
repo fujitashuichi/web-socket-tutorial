@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import type { ConnectionStatus } from "./types";
-import { WsEvents } from "./wsEvents";
+import { WsEvents } from "./WsEvents";
 import WebSocket from "ws";
 import { validateAndSendMessage } from "./sendMessage";
 
