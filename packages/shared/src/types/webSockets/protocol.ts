@@ -1,4 +1,4 @@
-import { z } from "zod";
+import z from "zod";
 
 export const WsCloseEventCodesSchema = z.object({
   failure: z.union([
@@ -8,18 +8,6 @@ export const WsCloseEventCodesSchema = z.object({
   success: z.literal(1000)
 });
 export type WsCloseEventCodes = z.infer<typeof WsCloseEventCodesSchema>;
-
-
-export const WsResponseSchema = z.object({
-  ok: z.literal(false),
-  status: WsCloseEventCodesSchema.shape.failure,
-  message: z.string().optional()
-}).or(z.object({
-  ok: z.literal(true),
-  status: WsCloseEventCodesSchema.shape.success,
-  data: z.unknown()
-}));
-export type WsResponse = z.infer<typeof WsResponseSchema>;
 
 
 /*
