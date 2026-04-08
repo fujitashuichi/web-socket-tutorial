@@ -1,6 +1,8 @@
 # web-socket-tutorial
 WebSocketの使い方を知るための学習
 
+## [開発仕様](./docs/requirements/devRequirements.md)
+
 ## 学習レポート
 ### [WebSocket の制御に useRef を使う理由](./docs/reports/useRef.md)
 * state での管理が非推奨である理由を考えました
@@ -28,3 +30,11 @@ WebSocketの使い方を知るための学習
 * wsのリスナーとクライアントのライフサイクルを理解。これを元に遅延初期化の考えを学習
 * server --> listen --> event の構造を学習
 * wss.onによる登録の仕組みを学習
+
+**2026/04/07**
+* リファクタの完了
+* wsのメソッド式と代入式の違いを学習
+* 通信の自由度に対してZodが付いていかない問題が発生
+* headerによる秩序を用いた解決策を学習
+
+**2026/04/08**

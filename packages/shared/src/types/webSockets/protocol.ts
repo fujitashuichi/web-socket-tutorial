@@ -1,19 +1,14 @@
-export type WsCloseEventCodes = {
-  failure: 1001 | 1002 | 1003 | 1006 | 1007 | 1008 | 1009 | 1010 | 1011 | 1015,
-  success: 1000
-}
+import z from "zod";
 
-export type WsResponse =
-  | {
-    ok: false,
-    status: WsCloseEventCodes["failure"],
-    message?: string
-  }
-  | {
-    ok: true,
-    status: WsCloseEventCodes["success"],
-    data: unknown
-  };
+export const WsCloseEventCodesSchema = z.object({
+  failure: z.union([
+    z.literal(1001), z.literal(1002), z.literal(1003), z.literal(1006), z.literal(1007),
+    z.literal(1008), z.literal(1009), z.literal(1010), z.literal(1011), z.literal(1015)
+  ]),
+  success: z.literal(1000)
+});
+export type WsCloseEventCodes = z.infer<typeof WsCloseEventCodesSchema>;
+
 
 /*
 1000 - Normal Closure (正常終了): リクエスト完了や切断手続きが正常に行われた。

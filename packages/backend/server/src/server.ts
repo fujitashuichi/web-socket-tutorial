@@ -1,25 +1,40 @@
 import { WebSocketServer } from "ws";
 import { appConsole, randomGreeting } from "./utils/index.js";
-import { type WsResponse } from "@app/shared"
+import type { WsPayload } from "@app/shared";
 
 const wss = new WebSocketServer({ port: 3000 });
 
-const firstResponse: WsResponse = {
-  ok: true,
-  status: 1000,
-  data: "hi client!"
-}
-
-const messageForBinary: WsResponse = {
-  ok: false,
-  status: 1003
-}
-
-const onmessageResponse = (): WsResponse => {
-  return {
+const firstResponse: WsPayload = {
+  header: {
+    type: "CHAT"
+  },
+  body: {
     ok: true,
     status: 1000,
-    data: randomGreeting()
+    data: "hi client!"
+  }
+}
+
+const messageForBinary: WsPayload = {
+  header: {
+    type: "CHAT"
+  },
+  body: {
+    ok: false,
+    status: 1003
+  }
+}
+
+const onmessageResponse = (): WsPayload => {
+  return {
+    header: {
+      type: "CHAT"
+    },
+    body: {
+      ok: true,
+      status: 1000,
+      data: randomGreeting()
+    }
   }
 }
 
