@@ -3,7 +3,7 @@ import type { SetStateAction } from "react";
 import type React from "react";
 import type { MessageEvent, WebSocket } from "ws";
 import type { ConnectionStatus } from "./types";
-import { WsResponseSchema } from "@app/shared";
+import { WsPayloadSchema } from "@app/shared";
 
 
 type SetStatus = React.Dispatch<SetStateAction<ConnectionStatus>>;
@@ -29,18 +29,25 @@ export class WsEvents {
 
     const data = event.data;
 
-    const parsed = WsResponseSchema.safeParse(data);
+    const parsed = WsPayloadSchema.safeParse(data);
     if (!parsed.success) {
-      return console.error("InvalidData");
+      return console.error("InvalidPayload");
     }
 
     const validated = parsed.data;
-    if (!validated.ok) {
-      return console.error("WebSocketError:", validated.status);
+
+
+    if (validated.header.type !== "CHAT") {
+      return console.error("Required CHAT message but received", validated.header.type);
     }
 
-    if (typeof validated.data !== "string") return console.error("InvalidData");
-    this.setData(validated.data);
+
+    if (!validated.body.ok) {
+      return console.error("WebSocketError:", validated.body.status);
+    }
+
+    if (typeof validated.body.data !== "string") return console.error("InvalidData");
+    this.setData(validated.body.data);
   };
 
   onopen =  () => {

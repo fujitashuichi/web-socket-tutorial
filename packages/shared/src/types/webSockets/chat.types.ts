@@ -2,6 +2,13 @@ import z from "zod";
 import { WsCloseEventCodesSchema } from "./protocol.js";
 
 
+export const WsChatHeaderScheme = z.object({
+  type: z.literal("CHAT"),
+  date: z.transform(() => new Date()).optional()
+});
+export type WsChatHeader = z.infer<typeof WsChatHeaderScheme>;
+
+
 export const WsChatBodySchema = z.object({
   ok: z.literal(false),
   status: WsCloseEventCodesSchema.shape.failure,

@@ -1,12 +1,9 @@
 import { z } from "zod";
-import { WsChatBodySchema } from "./chat.types.js";
+import { WsChatBodySchema, WsChatHeaderScheme } from "./chat.types.js";
 
 
-export const WsResponseSchema = z.object({
-  header: {
-    type: z.literal("CHAT"),
-    date: z.date().default(new Date())
-  },
+export const WsPayloadSchema = z.object({
+  header: WsChatHeaderScheme,
   body: WsChatBodySchema
 });
-export type WsResponse = z.infer<typeof WsResponseSchema>;
+export type WsPayload = z.infer<typeof WsPayloadSchema>;
