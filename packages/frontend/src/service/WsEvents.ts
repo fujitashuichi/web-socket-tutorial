@@ -27,7 +27,7 @@ export class WsEvents {
   onmessage = (event: MessageEvent) => {
     if (this.canceled) return;
 
-    const data = event.data;
+    const data = JSON.parse(event.data);
 
     const parsed = WsPayloadSchema.safeParse(data);
     if (!parsed.success) {
