@@ -25,7 +25,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev:server": "npm run dev -w packages/backend/server",
-    "dev:frontend": "npm run dev -w packages/frontend"
+    "dev:frontend": "npm run dev -w packages/frontend",
+    "build:shared": "npm run build -w packages/shared"
   },
   "devDependencies": {
     "@types/node": "^25.5.2"
